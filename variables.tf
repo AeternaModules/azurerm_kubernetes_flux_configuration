@@ -68,11 +68,11 @@ EOT
     cluster_id                        = string
     name                              = string
     namespace                         = string
-    continuous_reconciliation_enabled = optional(bool, true)
-    scope                             = optional(string, "namespace")
-    kustomizations = object({
+    continuous_reconciliation_enabled = optional(bool)   # Default: true
+    scope                             = optional(string) # Default: "namespace"
+    kustomizations = list(object({
       depends_on                 = optional(list(string))
-      garbage_collection_enabled = optional(bool, false)
+      garbage_collection_enabled = optional(bool) # Default: false
       name                       = string
       path                       = optional(string)
       post_build = optional(object({
@@ -80,15 +80,15 @@ EOT
         substitute_from = optional(object({
           kind     = string
           name     = string
-          optional = optional(bool, false)
+          optional = optional(bool) # Default: false
         }))
       }))
-      recreating_enabled        = optional(bool, false)
-      retry_interval_in_seconds = optional(number, 600)
-      sync_interval_in_seconds  = optional(number, 600)
-      timeout_in_seconds        = optional(number, 600)
-      wait                      = optional(bool, true)
-    })
+      recreating_enabled        = optional(bool)   # Default: false
+      retry_interval_in_seconds = optional(number) # Default: 600
+      sync_interval_in_seconds  = optional(number) # Default: 600
+      timeout_in_seconds        = optional(number) # Default: 600
+      wait                      = optional(bool)   # Default: true
+    }))
     blob_storage = optional(object({
       account_key          = optional(string)
       container_id         = string
@@ -100,22 +100,22 @@ EOT
       service_principal = optional(object({
         client_certificate_base64     = optional(string)
         client_certificate_password   = optional(string)
-        client_certificate_send_chain = optional(bool, false)
+        client_certificate_send_chain = optional(bool) # Default: false
         client_id                     = string
         client_secret                 = optional(string)
         tenant_id                     = string
       }))
-      sync_interval_in_seconds = optional(number, 600)
-      timeout_in_seconds       = optional(number, 600)
+      sync_interval_in_seconds = optional(number) # Default: 600
+      timeout_in_seconds       = optional(number) # Default: 600
     }))
     bucket = optional(object({
       access_key               = optional(string)
       bucket_name              = string
       local_auth_reference     = optional(string)
       secret_key_base64        = optional(string)
-      sync_interval_in_seconds = optional(number, 600)
-      timeout_in_seconds       = optional(number, 600)
-      tls_enabled              = optional(bool, true)
+      sync_interval_in_seconds = optional(number) # Default: 600
+      timeout_in_seconds       = optional(number) # Default: 600
+      tls_enabled              = optional(bool)   # Default: true
       url                      = string
     }))
     git_repository = optional(object({
@@ -128,10 +128,18 @@ EOT
       reference_value          = string
       ssh_known_hosts_base64   = optional(string)
       ssh_private_key_base64   = optional(string)
-      sync_interval_in_seconds = optional(number, 600)
-      timeout_in_seconds       = optional(number, 600)
+      sync_interval_in_seconds = optional(number) # Default: 600
+      timeout_in_seconds       = optional(number) # Default: 600
       url                      = string
     }))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.kubernetes_flux_configurations : (
+        length(v.kustomizations) >= 1
+      )
+    ])
+    error_message = "Each kustomizations list must contain at least 1 items"
+  }
 }
 
