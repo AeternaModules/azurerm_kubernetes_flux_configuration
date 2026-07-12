@@ -77,11 +77,11 @@ EOT
       path                       = optional(string)
       post_build = optional(object({
         substitute = optional(map(string))
-        substitute_from = optional(object({
+        substitute_from = optional(list(object({
           kind     = string
           name     = string
           optional = optional(bool) # Default: false
-        }))
+        })))
       }))
       recreating_enabled        = optional(bool)   # Default: false
       retry_interval_in_seconds = optional(number) # Default: 600

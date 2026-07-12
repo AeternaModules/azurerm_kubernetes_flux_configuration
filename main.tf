@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_flux_configuration" "kubernetes_flux_configurations
         content {
           substitute = post_build.value.substitute
           dynamic "substitute_from" {
-            for_each = post_build.value.substitute_from != null ? [post_build.value.substitute_from] : []
+            for_each = post_build.value.substitute_from != null ? post_build.value.substitute_from : []
             content {
               kind     = substitute_from.value.kind
               name     = substitute_from.value.name
