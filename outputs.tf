@@ -1,3 +1,7 @@
+output "kubernetes_flux_configurations_id" {
+  description = "Map of id values across all kubernetes_flux_configurations, keyed the same as var.kubernetes_flux_configurations"
+  value       = { for k, v in azurerm_kubernetes_flux_configuration.kubernetes_flux_configurations : k => v.id }
+}
 output "kubernetes_flux_configurations_blob_storage" {
   description = "Map of blob_storage values across all kubernetes_flux_configurations, keyed the same as var.kubernetes_flux_configurations"
   value       = { for k, v in azurerm_kubernetes_flux_configuration.kubernetes_flux_configurations : k => v.blob_storage }
