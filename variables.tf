@@ -68,11 +68,11 @@ EOT
     cluster_id                        = string
     name                              = string
     namespace                         = string
-    continuous_reconciliation_enabled = optional(bool)   # Default: true
-    scope                             = optional(string) # Default: "namespace"
+    continuous_reconciliation_enabled = optional(bool)
+    scope                             = optional(string)
     kustomizations = list(object({
       depends_on                 = optional(list(string))
-      garbage_collection_enabled = optional(bool) # Default: false
+      garbage_collection_enabled = optional(bool)
       name                       = string
       path                       = optional(string)
       post_build = optional(object({
@@ -80,14 +80,14 @@ EOT
         substitute_from = optional(list(object({
           kind     = string
           name     = string
-          optional = optional(bool) # Default: false
+          optional = optional(bool)
         })))
       }))
-      recreating_enabled        = optional(bool)   # Default: false
-      retry_interval_in_seconds = optional(number) # Default: 600
-      sync_interval_in_seconds  = optional(number) # Default: 600
-      timeout_in_seconds        = optional(number) # Default: 600
-      wait                      = optional(bool)   # Default: true
+      recreating_enabled        = optional(bool)
+      retry_interval_in_seconds = optional(number)
+      sync_interval_in_seconds  = optional(number)
+      timeout_in_seconds        = optional(number)
+      wait                      = optional(bool)
     }))
     blob_storage = optional(object({
       account_key          = optional(string)
@@ -100,22 +100,22 @@ EOT
       service_principal = optional(object({
         client_certificate_base64     = optional(string)
         client_certificate_password   = optional(string)
-        client_certificate_send_chain = optional(bool) # Default: false
+        client_certificate_send_chain = optional(bool)
         client_id                     = string
         client_secret                 = optional(string)
         tenant_id                     = string
       }))
-      sync_interval_in_seconds = optional(number) # Default: 600
-      timeout_in_seconds       = optional(number) # Default: 600
+      sync_interval_in_seconds = optional(number)
+      timeout_in_seconds       = optional(number)
     }))
     bucket = optional(object({
       access_key               = optional(string)
       bucket_name              = string
       local_auth_reference     = optional(string)
       secret_key_base64        = optional(string)
-      sync_interval_in_seconds = optional(number) # Default: 600
-      timeout_in_seconds       = optional(number) # Default: 600
-      tls_enabled              = optional(bool)   # Default: true
+      sync_interval_in_seconds = optional(number)
+      timeout_in_seconds       = optional(number)
+      tls_enabled              = optional(bool)
       url                      = string
     }))
     git_repository = optional(object({
@@ -128,8 +128,8 @@ EOT
       reference_value          = string
       ssh_known_hosts_base64   = optional(string)
       ssh_private_key_base64   = optional(string)
-      sync_interval_in_seconds = optional(number) # Default: 600
-      timeout_in_seconds       = optional(number) # Default: 600
+      sync_interval_in_seconds = optional(number)
+      timeout_in_seconds       = optional(number)
       url                      = string
     }))
   }))
